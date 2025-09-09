@@ -150,40 +150,103 @@
 #     return items
 
 
+from __future__ import annotations
 import fitz  # PyMuPDF
 from PIL import Image
 import io
 from typing import List
+from pathlib import Path
+
+# Import config values
+from .config import MIN_IMG_AREA_RATIO, MIN_IMG_PIXELS, USE_PAGE_RENDER_FALLBACK
+
 
 def extract_text_from_pdf(pdf_path: str) -> str:
-    """Extracts all text from a PDF file."""
+    """Extracts all text from a given PDF file."""
     try:
-        with fitz.open(pdf_path) as doc:
-            text = "".join(page.get_text() for page in doc)
+        doc = fitz.open(pdf_path)
+        text = ""
+        for page in doc:
+            text += page.get_text()
         return text.strip()
     except Exception as e:
         print(f"Error extracting text from {pdf_path}: {e}")
         return ""
 
+
 def extract_images_from_pdf(pdf_path: str) -> List[Image.Image]:
     """
-    Extracts images from a PDF file.
-    This version is simplified to extract all embedded images.
-    You can enhance it with the size-based filtering logic from your Colab notebook.
+    Extracts meaningful images from a PDF using a sophisticated, page-by-page logic.
+
+    Extraction Strategy (per page):
+    1.  **Embedded Images:** Look for standard embedded images (PNG, JPEG) that are
+        large enough based on pixel dimensions or page area ratio.
+    2.  **Vector Drawings:** If no embedded images are found on the page, look for
+        vector graphics (drawings, charts) and render them as an image.
+    3.  **Full Page Fallback:** If still nothing is found and the option is enabled
+        in config, render the entire page as a last resort.
     """
-    images = []
-    try:
-        with fitz.open(pdf_path) as doc:
-            for page_num in range(len(doc)):
-                for img_info in doc.get_page_images(page_num, full=True):
-                    xref = img_info[0]
-                    base_image = doc.extract_image(xref)
-                    image_bytes = base_image["image"]
+    images_to_embed = []
+    doc = fitz.open(pdf_path)
+
+    for page in doc:
+        found_on_page = False
+        page_area = page.rect.width * page.rect.height if page.rect else 0
+
+        # --- Step 1: Try to find significant embedded images on this page ---
+        if page_area > 0:
+            for img_info in page.get_images(full=True):
+                xref = img_info[0]
+                base_image = doc.extract_image(xref)
+
+                # Check if the image is large enough
+                w, h = base_image.get("width", 0), base_image.get("height", 0)
+                try:
+                    bbox = page.get_image_bbox(img_info)
+                    img_area = bbox.width * bbox.height
+                except Exception:
+                    img_area = 0
+
+                take_this = False
+                if (img_area / page_area) >= MIN_IMG_AREA_RATIO:
+                    take_this = True
+                elif (w * h) >= MIN_IMG_PIXELS:
+                    take_this = True
+
+                if take_this:
                     try:
-                        pil_image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
-                        images.append(pil_image)
-                    except Exception as img_e:
-                        print(f"Could not open image {xref} on page {page_num}: {img_e}")
-    except Exception as e:
-        print(f"Error extracting images from {pdf_path}: {e}")
-    return images
+                        img_bytes = base_image["image"]
+                        pil_image = Image.open(
+                            io.BytesIO(img_bytes)).convert("RGB")
+                        images_to_embed.append(pil_image)
+                        found_on_page = True
+                    except Exception as e:
+                        print(
+                            f"Warning: Could not process embedded image xref {xref}: {e}")
+
+        # --- Step 2: If no embedded images, look for vector drawings ---
+        if not found_on_page:
+            drawings = page.get_drawings()
+            if drawings:
+                total_drawings_bbox = fitz.Rect()
+                for path in drawings:
+                    total_drawings_bbox.include_rect(path['rect'])
+
+                # Render drawings if they form a significant area
+                if not total_drawings_bbox.is_empty and (total_drawings_bbox.width > 20 and total_drawings_bbox.height > 20):
+                    pix = page.get_pixmap(dpi=150, clip=total_drawings_bbox)
+                    pil_image = Image.frombytes(
+                        "RGB", [pix.width, pix.height], pix.samples)
+                    images_to_embed.append(pil_image)
+                    found_on_page = True
+
+        # --- Step 3: Fallback to rendering the whole page if needed ---
+        if not found_on_page and USE_PAGE_RENDER_FALLBACK:
+            print(
+                f"No content found on page {page.number} of {Path(pdf_path).name}. Rendering full page.")
+            pix = page.get_pixmap(dpi=150)
+            pil_image = Image.frombytes(
+                "RGB", [pix.width, pix.height], pix.samples)
+            images_to_embed.append(pil_image)
+
+    return images_to_embed
