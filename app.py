@@ -43,15 +43,15 @@ except Exception as e:
 
 
 def main():
-    st.title("🔍 PDF Similarity Analysis System (with Pinecone)")
+    st.title("Assignment Plagiarism Checker")
 
     with st.sidebar:
         st.header("⚙️ Configuration")
         processing_mode = st.selectbox(
             "Processing Mode:",
             options=[1, 2, 3],
-            format_func=lambda x: {1: "📝 Text Only",
-                                   2: "🖼️ Image Only", 3: "📝🖼️ Text + Image"}[x]
+            format_func=lambda x: {1: "โหมดข้อความอย่างเดียว",
+                                   2: "โหมดรูปภาพอย่างเดียว", 3: "โหมดข้อความ และรูปภาพ"}[x]
         )
 
         use_template, template_file = False, None
