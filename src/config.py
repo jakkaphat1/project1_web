@@ -6,9 +6,18 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-PINECONE_API_KEY: str | None = os.getenv("PINECONE_API_KEY")
-PINECONE_INDEX_TEXT: str = os.getenv("PINECONE_INDEX_TEXT", "pdf-text")
-PINECONE_INDEX_IMAGE: str = os.getenv("PINECONE_INDEX_IMAGE", "pdf-image")
+try:
+    import streamlit as st
+    _S = getattr(st, "secrets", {})
+except Exception:
+    _S = {}
+
+PINECONE_API_KEY: str | None = _S.get(
+    "PINECONE_API_KEY") or os.getenv("PINECONE_API_KEY")
+PINECONE_INDEX_TEXT: str = _S.get("PINECONE_INDEX_TEXT") or os.getenv(
+    "PINECONE_INDEX_TEXT", "pdf-text")
+PINECONE_INDEX_IMAGE: str = _S.get("PINECONE_INDEX_IMAGE") or os.getenv(
+    "PINECONE_INDEX_IMAGE", "pdf-image")
 
 
 # Heuristics for image extraction
@@ -18,8 +27,8 @@ USE_PAGE_RENDER_FALLBACK: bool = False
 
 
 # UI defaults
-DEFAULT_ALPHA = 0.5 # text semantic weight
-DEFAULT_W_EMB = 0.7 # image CLIP weight
+DEFAULT_ALPHA = 0.5  # text semantic weight
+DEFAULT_W_EMB = 0.7  # image CLIP weight
 DEFAULT_PHASH_PREFILTER = 0.35
 DEFAULT_IMG_MATCH_TH = 0.80
 DEFAULT_TEXT_WEIGHT = 0.5
