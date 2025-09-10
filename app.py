@@ -67,7 +67,7 @@ def main():
                 "Text Weight", 0.0, 1.0, cfg.DEFAULT_TEXT_WEIGHT, 0.05)
 
         group_threshold = st.slider(
-            "Grouping Threshold", 0.5, 1.0, cfg.DEFAULT_GROUP_TH, 0.05)
+            "Threshold", 0.5, 1.0, cfg.DEFAULT_GROUP_TH, 0.05)
 
     tab1, tab2 = st.tabs(["การประมวลผลไฟล์", "ผลลัพธ์ และการจัดกลุ่ม"])
 
@@ -197,7 +197,7 @@ def process_and_compare(uploaded_files, processing_mode, use_template, template_
         st.session_state.results_df = pd.DataFrame(
             sorted(results, key=lambda x: x['final_score'], reverse=True))
 
-        status_text.text("Generating clusters...")
+        # status_text.text("Generating clusters...")
         st.session_state.clusters = clustering.cluster_by_threshold(
             st.session_state.results_df, group_threshold)
         st.session_state.processed_filenames = {
@@ -262,9 +262,11 @@ def display_results():
                     st.info("ไม่มีการเปรียบเทียบรูปภาพในโหมดนี้")
 
     # --- Clustering display remains the same ---
-    st.subheader("จัดกลุ่มไฟล์ที่คล้ายกันที่ >= Threshold ที่ตั้ง (Document Clusters)")
+    st.subheader(
+        "จัดกลุ่มไฟล์ที่คล้ายกันที่ >= Threshold ที่ตั้ง (Document Clusters)")
     if not clusters:
-        st.warning("ไม่มีการจัดกลุ่มเนื่องจากไม่มีคู่ไฟล์ที่คล้ายกันเกิน Threshold ที่ตั้งไว้")
+        st.warning(
+            "ไม่มีการจัดกลุ่มเนื่องจากไม่มีคู่ไฟล์ที่คล้ายกันเกิน Threshold ที่ตั้งไว้")
     else:
         for i, cluster in enumerate(clusters):
             with st.expander(f"**Cluster {i+1}** ({len(cluster)} documents)"):
