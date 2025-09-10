@@ -46,9 +46,9 @@ def main():
     st.title("Assignment Plagiarism Checker")
 
     with st.sidebar:
-        st.header("⚙️ Configuration")
+        st.header("การตั้งค่า")
         processing_mode = st.selectbox(
-            "Processing Mode:",
+            "เลือกโหมดในการประมวลผลไฟล์",
             options=[1, 2, 3],
             format_func=lambda x: {1: "โหมดข้อความอย่างเดียว",
                                    2: "โหมดรูปภาพอย่างเดียว", 3: "โหมดข้อความ และรูปภาพ"}[x]
