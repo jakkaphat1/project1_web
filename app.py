@@ -220,7 +220,7 @@ def display_results():
     clusters = st.session_state.clusters
     filenames = st.session_state.processed_filenames
 
-    st.subheader("📊 Detailed Comparison Results")
+    st.subheader("รายละเอียดการเปรียบเทียบไฟล์ (Detailed Comparison Results)")
 
     # --- NEW: Detailed per-pair display ---
     for index, row in df.iterrows():
@@ -245,7 +245,7 @@ def display_results():
                     st.info("No text comparison in this mode.")
 
             with col2:
-                st.markdown("#### 🖼️ Image Analysis")
+                st.markdown("การวิเคราะห์รูปภาพ")
                 # --- FIX: Check for 'total_pairs' existence ---
                 # This key is only added if image comparison was performed, making it a reliable check
                 # regardless of the similarity score (even if it's 0).
@@ -262,9 +262,9 @@ def display_results():
                     st.info("No image comparison in this mode.")
 
     # --- Clustering display remains the same ---
-    st.subheader("🔗 Document Clusters")
+    st.subheader("จัดกลุ่มไฟล์ที่คล้ายกันที่ >= Threshold ที่ตั้ง (Document Clusters)")
     if not clusters:
-        st.warning("No clusters found with the current threshold.")
+        st.warning("ไม่มีการจัดกลุ่มเนื่องจากไม่มีคู่ไฟล์ที่คล้ายกันเกิน Threshold ที่ตั้งไว้")
     else:
         for i, cluster in enumerate(clusters):
             with st.expander(f"**Cluster {i+1}** ({len(cluster)} documents)"):
