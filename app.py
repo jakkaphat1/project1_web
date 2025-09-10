@@ -495,7 +495,7 @@ def main():
 
         use_template, template_file = False, None
         if processing_mode in [1, 3]:
-            if st.checkbox("Use template to remove common text"):
+            if st.checkbox("เลือกใช้ Template เพื่อลบข้อความซ้ำ หรือข้อความจากโจทย์"):
                 use_template = True
                 template_file = st.file_uploader(
                     "Upload Template PDF", type=['pdf'])
