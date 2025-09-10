@@ -28,7 +28,7 @@ try:
     # **FIX:** Call the centralized model loading function
     # This will return all necessary variables: models, device, and dimensions
     labse_model, clip_model, clip_processor, device, labse_dim, clip_dim = load_models()
-    st.sidebar.success(f"Models loaded on {device.upper()}!")
+    st.toast(f"Models loaded on {device.upper()}")
 
     # Connect to Pinecone Vector DB using the dimensions from load_models()
     text_index, image_index = pinecone_db.connect_pinecone(
