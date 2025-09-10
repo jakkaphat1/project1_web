@@ -1,11 +1,24 @@
+# App
+streamlit
+
 # Core
 numpy
 scikit-learn
+pandas
 
 # NLP & Embedding
 sentence-transformers
 transformers
 pythainlp
+ftfy
+huggingface-hub
+timm
+safetensors
+tokenizers
+
+# PyTorch (CPU)
+torch
+torchvision
 
 # PDF & Image
 pymupdf
@@ -14,7 +27,9 @@ pytesseract
 Pillow
 
 # Vector DB
-pinecone-client
+pinecone>=6.0.0
 
 # Utils
 python-slugify
+requests
+tqdm
