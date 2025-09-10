@@ -203,8 +203,8 @@ def process_and_compare(uploaded_files, processing_mode, use_template, template_
         st.session_state.processed_filenames = {
             d["doc_id"]: d["filename"] for d in processed_data.values()}
 
-        status_text.text("ประมวลผลเสร็จสิ้น")
-        st.success("Processing, comparison, and clustering complete!")
+        # status_text.text("ประมวลผลเสร็จสิ้น")
+        st.success("ประมวลผลทั้งหมดเสร็จสิ้น")
         st.balloons()
     except Exception as e:
         st.error(f"An error occurred during processing: {e}")
