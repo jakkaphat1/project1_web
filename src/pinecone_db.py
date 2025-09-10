@@ -3,7 +3,7 @@ from typing import Dict
 import numpy as np
 from pinecone import Pinecone, ServerlessSpec
 from src.config import PINECONE_API_KEY, PINECONE_INDEX_TEXT, PINECONE_INDEX_IMAGE
-
+from dotenv import load_dotenv
 
 try:
     import streamlit as st
