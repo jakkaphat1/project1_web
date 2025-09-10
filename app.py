@@ -19,7 +19,7 @@ from pythainlp.tokenize import word_tokenize
 # --- Page Configuration ---
 st.set_page_config(
     page_title="PDF Similarity Analysis with Pinecone",
-    page_icon="📄",
+    page_icon="https://www.kku.ac.th/th/rl_gallery/official-logo/",
     layout="wide"
 )
 
@@ -40,6 +40,7 @@ except Exception as e:
     st.sidebar.error(f"Initialization Error: {e}")
     st.exception(e)
     st.stop()
+
 
 def main():
     st.title("🔍 PDF Similarity Analysis System (with Pinecone)")
