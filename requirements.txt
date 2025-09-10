@@ -25,6 +25,7 @@ pymupdf
 pdf2image
 pytesseract
 Pillow
+imagehash
 
 # Vector DB
 pinecone>=6.0.0
