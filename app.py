@@ -48,7 +48,7 @@ def main():
     with st.sidebar:
         st.header("การตั้งค่า")
         processing_mode = st.selectbox(
-            "เลือกโหมดในการประมวลผลไฟล์:",
+            "เลือกโหมดในการประมวลผลไฟล์ :",
             options=[1, 2, 3],
             format_func=lambda x: {1: "โหมดข้อความอย่างเดียว",
                                    2: "โหมดรูปภาพอย่างเดียว", 3: "โหมดข้อความ และรูปภาพ"}[x]
@@ -59,7 +59,7 @@ def main():
             if st.checkbox("เลือกใช้ Template เพื่อลบข้อความซ้ำ หรือข้อความจากโจทย์"):
                 use_template = True
                 template_file = st.file_uploader(
-                    "Upload Template PDF", type=['pdf'])
+                    "อัปโหลดไฟล์ Template (PDF)", type=['pdf'])
 
         text_weight = cfg.DEFAULT_TEXT_WEIGHT
         if processing_mode == 3:
@@ -69,12 +69,12 @@ def main():
         group_threshold = st.slider(
             "Grouping Threshold", 0.5, 1.0, cfg.DEFAULT_GROUP_TH, 0.05)
 
-    tab1, tab2 = st.tabs(["📤 Upload & Process", "📊 Results & Clusters"])
+    tab1, tab2 = st.tabs(["การประมวลผลไฟล์", "ผลลัพธ์ และการจัดกลุ่ม"])
 
     with tab1:
-        st.header("Upload PDF Files")
+        st.header("อัปโหลดไฟล์ PDF อย่างน้อย 2 ไฟล์(Upload PDF Files at least 2 files)")
         uploaded_files = st.file_uploader(
-            "Choose PDF files:", type=['pdf'], accept_multiple_files=True
+            "เลือกไฟล์ PDF:", type=['pdf'], accept_multiple_files=True
         )
 
         if st.button("🚀 Start Processing & Comparison", type="primary", disabled=not uploaded_files or len(uploaded_files) < 2):
