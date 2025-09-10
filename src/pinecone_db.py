@@ -2,7 +2,8 @@ from __future__ import annotations
 from typing import Dict
 import numpy as np
 from pinecone import Pinecone, ServerlessSpec
-from config import PINECONE_API_KEY, PINECONE_INDEX_TEXT, PINECONE_INDEX_IMAGE
+from src.config import PINECONE_API_KEY, PINECONE_INDEX_TEXT, PINECONE_INDEX_IMAGE
+
 
 try:
     import streamlit as st
