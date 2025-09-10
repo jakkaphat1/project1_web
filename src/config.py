@@ -1,24 +1,30 @@
 from __future__ import annotations
 import os
-from dotenv import load_dotenv
+import streamlit as st
+# from dotenv import load_dotenv
+# load_dotenv()
 
 
-load_dotenv()
+# try:
+#     import streamlit as st
+#     _S = getattr(st, "secrets", {})
+# except Exception:
+#     _S = {}
+
+# PINECONE_API_KEY: str | None = _S.get(
+#     "PINECONE_API_KEY") or os.getenv("PINECONE_API_KEY")
+# PINECONE_INDEX_TEXT: str = _S.get("PINECONE_INDEX_TEXT") or os.getenv(
+#     "PINECONE_INDEX_TEXT", "pdf-text")
+# PINECONE_INDEX_IMAGE: str = _S.get("PINECONE_INDEX_IMAGE") or os.getenv(
+#     "PINECONE_INDEX_IMAGE", "pdf-image")
+
+def _get(name, default=None):
+    return st.secrets.get(name, os.getenv(name, default))
 
 
-try:
-    import streamlit as st
-    _S = getattr(st, "secrets", {})
-except Exception:
-    _S = {}
-
-PINECONE_API_KEY: str | None = _S.get(
-    "PINECONE_API_KEY") or os.getenv("PINECONE_API_KEY")
-PINECONE_INDEX_TEXT: str = _S.get("PINECONE_INDEX_TEXT") or os.getenv(
-    "PINECONE_INDEX_TEXT", "pdf-text")
-PINECONE_INDEX_IMAGE: str = _S.get("PINECONE_INDEX_IMAGE") or os.getenv(
-    "PINECONE_INDEX_IMAGE", "pdf-image")
-
+PINECONE_API_KEY = _get("PINECONE_API_KEY")
+PINECONE_INDEX_TEXT = _get("PINECONE_INDEX_TEXT", "pdf-text")
+PINECONE_INDEX_IMAGE = _get("PINECONE_INDEX_IMAGE", "pdf-image")
 
 # Heuristics for image extraction
 MIN_IMG_AREA_RATIO: float = 0.05
