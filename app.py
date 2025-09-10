@@ -19,7 +19,7 @@ from pythainlp.tokenize import word_tokenize
 # --- Page Configuration ---
 st.set_page_config(
     page_title="PDF Similarity Analysis with Pinecone",
-    page_icon="https://www.kku.ac.th/th/rl_gallery/official-logo/",
+    page_icon="https://www.kku.ac.th/wp-content/uploads/2023/04/logo-kku-color.png",
     layout="wide"
 )
 
