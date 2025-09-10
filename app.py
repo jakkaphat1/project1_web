@@ -72,12 +72,13 @@ def main():
     tab1, tab2 = st.tabs(["การประมวลผลไฟล์", "ผลลัพธ์ และการจัดกลุ่ม"])
 
     with tab1:
-        st.header("อัปโหลดไฟล์ PDF อย่างน้อย 2 ไฟล์(Upload PDF Files at least 2 files)")
+        st.header(
+            "อัปโหลดไฟล์ PDF อย่างน้อย 2 ไฟล์ (Upload PDF Files at least 2 files)")
         uploaded_files = st.file_uploader(
             "เลือกไฟล์ PDF:", type=['pdf'], accept_multiple_files=True
         )
 
-        if st.button("🚀 Start Processing & Comparison", type="primary", disabled=not uploaded_files or len(uploaded_files) < 2):
+        if st.button("ประมวลผลไฟล์", type="primary", disabled=not uploaded_files or len(uploaded_files) < 2):
             process_and_compare(uploaded_files, processing_mode,
                                 use_template, template_file, text_weight, group_threshold)
 
