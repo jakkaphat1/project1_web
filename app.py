@@ -34,7 +34,7 @@ try:
     text_index, image_index = pinecone_db.connect_pinecone(
         text_dim=labse_dim, image_dim=clip_dim)
     if text_index or image_index:
-        st.sidebar.success("Pinecone connected!")
+        st.toast("Pinecone connected!")
 
 except Exception as e:
     st.sidebar.error(f"Initialization Error: {e}")
