@@ -232,7 +232,7 @@ def display_results():
             col1, col2 = st.columns(2)
 
             with col1:
-                st.markdown("#### 📝 Text Analysis")
+                st.markdown("การวิเคราะห์ข้อความ")
                 # This check is more robust: it checks if a text-specific score exists and has a value.
                 if "text_semantic_similarity" in row and pd.notna(row["text_semantic_similarity"]):
                     st.metric("Hybrid Score",
@@ -259,7 +259,7 @@ def display_results():
                     st.write(
                         f"- Matched Pairs: `{row.get('matched_images', 0)} / {row.get('total_pairs', 0)}`")
                 else:
-                    st.info("No image comparison in this mode.")
+                    st.info("ไม่มีการเปรียบเทียบรูปภาพในโหมดนี้")
 
     # --- Clustering display remains the same ---
     st.subheader("จัดกลุ่มไฟล์ที่คล้ายกันที่ >= Threshold ที่ตั้ง (Document Clusters)")
