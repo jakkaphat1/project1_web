@@ -18,7 +18,7 @@ from pythainlp.tokenize import word_tokenize
 
 # --- Page Configuration ---
 st.set_page_config(
-    page_title="PDF Similarity Analysis with Pinecone",
+    page_title="Assignment Plagiarism Checker - CP KKU",
     page_icon="https://cdn.brandfetch.io/idn134Jj0b/w/400/h/400/theme/dark/icon.jpeg?c=1dxbfHSJFAPEGdCLU4o5B",
     layout="wide"
 )
