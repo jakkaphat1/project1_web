@@ -104,19 +104,7 @@ def to_ascii_id(filename: str) -> str:
 
 @st.cache_resource
 def load_models():
-    """
-    Loads all required machine learning models, caches them, and returns them
-    along with their embedding dimensions. Now uses a project-relative cache
-    directory for portability and easy deployment.
-    """
-    st.info("Loading models... This may take a moment on the first run.")
 
-    # --- Deployment-Friendly Cache Directory ---
-    # Create a '.cache' folder in the project's root directory.
-    # This makes the project self-contained and avoids machine-specific paths.
-    # Path(__file__) is the path to this file (src/models.py)
-    # .parent is the 'src' directory
-    # .parent.parent is the project's root directory
     project_root = Path(__file__).parent.parent
     cache_dir = project_root / ".model_cache"
     os.makedirs(cache_dir, exist_ok=True)
