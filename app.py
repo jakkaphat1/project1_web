@@ -145,7 +145,7 @@ def process_and_compare(uploaded_files, processing_mode, use_template, template_
         pinecone_db.upsert_text_vectors(text_index, text_to_upsert)
         pinecone_db.upsert_image_vectors(image_index, image_to_upsert)
 
-        status_text.text("Comparing document pairs...")
+        status_text.text("เปรียบเทียบคู่ไฟล์...")
         results = []
         doc_ids = list(processed_data.keys())
         for i in range(len(doc_ids)):
